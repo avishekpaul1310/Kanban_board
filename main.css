@@ -1,92 +1,267 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Kanban Board</title>
-</head>
-<body>
-    <!-- Authentication Section -->
-    <div id="login-section">
-        <h2>Welcome to Kanban Board</h2>
-        <form id="login-form">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="button" id="login-button">Login</button>
-            <button type="button" id="register-button">Register</button>
-        </form>
-    </div>
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 
-    <!-- Main Board Section -->
-    <div id="board-section" style="display: none;">
-        <header>
-            <div id="user-info">
-                <span>User: <span id="current-user"></span></span>
-                <button id="logout-button">Logout</button>
-            </div>
-            <div id="board-controls">
-                <button id="export-board">Export Board</button>
-                <input type="file" id="import-board" accept=".json" style="display: none;">
-                <button id="import-board-btn">Import Board</button>
-            </div>
-        </header>
+body {
+    background-color: #f0f2f5;
+    color: #1a1a1a;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 20px;
+}
 
-        <!-- Task Creation Form -->
-        <div id="task-form">
-            <input type="text" id="new-task" placeholder="Enter task description">
-            <select id="task-priority">
-                <option value="low">Low Priority</option>
-                <option value="medium" selected>Medium Priority</option>
-                <option value="high">High Priority</option>
-            </select>
-            <input type="date" id="task-due-date">
-            <button id="add-task">Add Task</button>
-        </div>
+/* Authentication Styles */
+#login-section {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-        <!-- Kanban Board -->
-        <div class="kanban-board">
-            <div class="column" id="to-do">
-                <h2>To Do</h2>
-                <div class="tasks-container"></div>
-            </div>
-            <div class="column" id="in-progress">
-                <h2>In Progress</h2>
-                <div class="tasks-container"></div>
-            </div>
-            <div class="column" id="done">
-                <h2>Done</h2>
-                <div class="tasks-container"></div>
-            </div>
-        </div>
+#login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
 
-        <!-- Basic Analytics -->
-        <div id="analytics-section">
-            <h3>Board Statistics</h3>
-            <div class="stats-container">
-                <div class="stat-item">
-                    <span class="stat-label">Total Tasks:</span>
-                    <span id="total-tasks">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">To Do:</span>
-                    <span id="todo-tasks">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">In Progress:</span>
-                    <span id="inprogress-tasks">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Done:</span>
-                    <span id="done-tasks">0</span>
-                </div>
-            </div>
-        </div>
-    </div>
+#login-form input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
 
-    <!-- Footer -->
-    <footer>
-        <p>Last Updated: <span id="last-updated">2025-01-21 01:34:37</span></p>
-        <p>Current User: <span id="footer-user">avishekpaul1310</span></p>
-    </footer>
-</body>
-</html>
+#login-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #0066cc;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#login-form button:hover {
+    background-color: #0052a3;
+}
+
+/* Header Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#user-info, #board-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0052a3;
+}
+
+/* Task Form Styles */
+#task-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#task-form input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#task-form select, #task-form input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Kanban Board Styles */
+.kanban-board {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    min-height: 400px;
+}
+
+.column {
+    flex: 1;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.column h2 {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f2f5;
+}
+
+.tasks-container {
+    min-height: 300px;
+}
+
+/* Task Styles */
+.task {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: move;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.task.dragging {
+    opacity: 0.5;
+}
+
+.task-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task-text {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: #ff4444;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0 5px;
+}
+
+.task-controls {
+    display: flex;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+/* Priority Colors */
+.priority-high {
+    border-left: 4px solid #ff4444;
+}
+
+.priority-medium {
+    border-left: 4px solid #ffbb33;
+}
+
+.priority-low {
+    border-left: 4px solid #00C851;
+}
+
+/* Analytics Styles */
+#analytics-section {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.stats-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.stat-item {
+    background: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 4px;
+    min-width: 150px;
+}
+
+.stat-label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .kanban-board {
+        flex-direction: column;
+    }
+
+    #task-form {
+        flex-direction: column;
+    }
+
+    .stats-container {
+        flex-direction: column;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Dragover Effect */
+.tasks-container.dragover {
+    background-color: #f8f9fa;
+    border: 2px dashed #0066cc;
+}
+
+/* Overdue Task Style */
+.task.overdue {
+    background-color: #ffebee;
+}
