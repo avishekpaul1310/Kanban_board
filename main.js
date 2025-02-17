@@ -1,59 +1,7 @@
 // Global variables
 let currentUser = null;
 let taskCounter = parseInt(localStorage.getItem("taskCounter")) || 1;
-const CURRENT_TIMESTAMP = "2025-02-17 15:27:31";
-
-// ML Model Implementation
-class TaskPredictor {
-    constructor() {
-        this.baselineDurations = {
-            'low': { min: 1, max: 3 },
-            'medium': { min: 3, max: 7 },
-            'high': { min: 7, max: 14 }
-        };
-        
-        // Historical data storage
-        this.historicalTasks = JSON.parse(localStorage.getItem('taskHistory')) || [];
-    }
-
-    predictDuration(taskDescription, priority) {
-        let baselineDuration = this.getBaselineDuration(priority);
-        let complexityFactor = this.analyzeComplexity(taskDescription);
-        let predictedDuration = Math.round(baselineDuration * complexityFactor);
-        return Math.min(Math.max(predictedDuration, 1), 30);
-    }
-
-    getBaselineDuration(priority) {
-        const range = this.baselineDurations[priority];
-        return (range.min + range.max) / 2;
-    }
-
-    analyzeComplexity(description) {
-        const complexityTerms = ['complex', 'difficult', 'major', 'significant', 'research'];
-        const words = description.toLowerCase().split(' ');
-        
-        let complexity = 1.0;
-        complexity += (words.length / 10) * 0.5;
-        
-        complexityTerms.forEach(term => {
-            if (description.toLowerCase().includes(term)) {
-                complexity += 0.3;
-            }
-        });
-        return complexity;
-    }
-
-    recordTaskCompletion(taskData) {
-        this.historicalTasks.push(taskData);
-        if (this.historicalTasks.length > 100) {
-            this.historicalTasks.shift();
-        }
-        localStorage.setItem('taskHistory', JSON.stringify(this.historicalTasks));
-    }
-}
-
-// Initialize the predictor
-const taskPredictor = new TaskPredictor();
+const CURRENT_TIMESTAMP = "2025-01-21 01:37:13";
 
 // Authentication Functions
 function handleLogin() {
@@ -75,6 +23,7 @@ function handleLogin() {
             
             localStorage.setItem("currentUser", JSON.stringify(currentUser));
             
+            // Update UI
             document.getElementById("login-section").style.display = "none";
             document.getElementById("board-section").style.display = "block";
             document.getElementById("current-user").textContent = username;
@@ -143,13 +92,6 @@ function createTask(text, priority = "medium", dueDate = "") {
     task.id = `task-${taskCounter++}`;
     localStorage.setItem("taskCounter", taskCounter);
 
-    // Add start date to task
-    task.dataset.startDate = new Date().toISOString();
-
-    // Predict duration
-    const predictedDuration = taskPredictor.predictDuration(text, priority);
-    task.dataset.predictedDuration = predictedDuration;
-
     task.innerHTML = `
         <div class="task-content">
             <div class="task-header">
@@ -164,12 +106,10 @@ function createTask(text, priority = "medium", dueDate = "") {
                 </select>
                 <input type="date" class="task-due-date" value="${dueDate}">
             </div>
-            <div class="task-duration">
-                Estimated: ${predictedDuration} days
-            </div>
         </div>
     `;
 
+    // Add event listeners
     addTaskEventListeners(task);
     checkDueDate(task);
     return task;
@@ -252,10 +192,6 @@ function initializeDragAndDrop() {
         container.addEventListener("drop", (e) => {
             e.preventDefault();
             container.classList.remove("dragover");
-            const task = document.querySelector(".dragging");
-            if (task && container.id === "done") {
-                handleTaskCompletion(task);
-            }
             saveBoardState();
             updateAnalytics();
         });
@@ -289,8 +225,7 @@ function saveBoardState() {
             tasks: Array.from(column.querySelectorAll(".task")).map(task => ({
                 text: task.querySelector(".task-text").value,
                 priority: task.querySelector(".task-priority").value,
-                dueDate: task.querySelector(".task-due-date").value,
-                predictedDuration: task.dataset.predictedDuration
+                dueDate: task.querySelector(".task-due-date").value
             }))
         };
     });
@@ -343,20 +278,6 @@ function updateAnalytics() {
     document.getElementById("todo-tasks").textContent = stats.todo;
     document.getElementById("inprogress-tasks").textContent = stats.inProgress;
     document.getElementById("done-tasks").textContent = stats.done;
-
-    // Update average duration if there are completed tasks
-    if (stats.done > 0) {
-        const avgDuration = calculateAverageDuration();
-        document.getElementById("avg-duration").textContent = avgDuration.toFixed(1);
-    }
-}
-
-function calculateAverageDuration() {
-    const historicalTasks = JSON.parse(localStorage.getItem('taskHistory')) || [];
-    if (historicalTasks.length === 0) return 0;
-    
-    const totalDuration = historicalTasks.reduce((sum, task) => sum + task.actualDuration, 0);
-    return totalDuration / historicalTasks.length;
 }
 
 // Import/Export Functions
@@ -397,20 +318,6 @@ function importBoard(event) {
     reader.readAsText(file);
 }
 
-function handleTaskCompletion(task) {
-    const startDate = new Date(task.dataset.startDate);
-    const endDate = new Date();
-    const actualDuration = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
-    const predictedDuration = parseInt(task.dataset.predictedDuration);
-
-    taskPredictor.recordTaskCompletion({
-        description: task.querySelector('.task-text').value,
-        priority: task.querySelector('.task-priority').value,
-        predictedDuration: predictedDuration,
-        actualDuration: actualDuration
-    });
-}
-
 // Initialize Application
 document.addEventListener("DOMContentLoaded", function() {
     // Set up event listeners
@@ -423,7 +330,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     document.getElementById("import-board").addEventListener("change", importBoard);
 
-    // Set up task creation event listeners
     document.getElementById("add-task").addEventListener("click", () => {
         const taskText = document.getElementById("new-task").value.trim();
         const priority = document.getElementById("task-priority").value;
@@ -437,20 +343,6 @@ document.addEventListener("DOMContentLoaded", function() {
             updateAnalytics();
         } else {
             alert("Please enter a task description");
-        }
-    });
-
-    // Add real-time prediction update
-    document.getElementById("new-task").addEventListener("input", function() {
-        const taskText = this.value.trim();
-        const priority = document.getElementById("task-priority").value;
-        
-        if (taskText.length > 3) {
-            const predictedDuration = taskPredictor.predictDuration(taskText, priority);
-            document.querySelector(".prediction-result").style.display = "block";
-            document.getElementById("predicted-duration").textContent = predictedDuration;
-        } else {
-            document.querySelector(".prediction-result").style.display = "none";
         }
     });
 
