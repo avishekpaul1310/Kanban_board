@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Enhanced Kanban Board</title>
+    <title>Simple Kanban Board</title>
 </head>
 <body>
     <!-- Authentication Section -->
     <div id="login-section">
-        <h2>Welcome to AI-Enhanced Kanban Board</h2>
+        <h2>Welcome to Kanban Board</h2>
         <form id="login-form">
             <input type="text" id="username" placeholder="Username" required>
             <input type="password" id="password" placeholder="Password" required>
@@ -43,16 +43,6 @@
             <button id="add-task">Add Task</button>
         </div>
 
-        <!-- Task Prediction Section -->
-        <div id="task-prediction">
-            <div class="prediction-result" style="display: none;">
-                <p>Estimated Duration: <span id="predicted-duration">0</span> days</p>
-                <p class="prediction-confidence" style="font-size: 0.9em; color: #666;">
-                    Based on task complexity and historical data
-                </p>
-            </div>
-        </div>
-
         <!-- Kanban Board -->
         <div class="kanban-board">
             <div class="column" id="to-do">
@@ -69,7 +59,7 @@
             </div>
         </div>
 
-        <!-- Analytics Section -->
+        <!-- Basic Analytics -->
         <div id="analytics-section">
             <h3>Board Statistics</h3>
             <div class="stats-container">
@@ -89,17 +79,13 @@
                     <span class="stat-label">Done:</span>
                     <span id="done-tasks">0</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-label">Average Task Duration:</span>
-                    <span id="avg-duration">0</span> days
-                </div>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
     <footer>
-        <p>Last Updated: <span id="last-updated">2025-02-17 15:04:11</span></p>
+        <p>Last Updated: <span id="last-updated">2025-01-21 01:34:37</span></p>
         <p>Current User: <span id="footer-user">avishekpaul1310</span></p>
     </footer>
 </body>
