@@ -73,6 +73,11 @@ function handleRegister() {
 
 function handleLogout() {
     if (confirm("Are you sure you want to logout?")) {
+        // Clear the board state for the current user before logging out
+        if (currentUser) {
+            localStorage.removeItem(`boardState_${currentUser.username}`);
+        }
+        
         currentUser = null;
         localStorage.removeItem("currentUser");
         
@@ -81,6 +86,14 @@ function handleLogout() {
         
         document.getElementById("username").value = "";
         document.getElementById("password").value = "";
+        
+        // Clear the visual board as well
+        document.querySelectorAll(".tasks-container").forEach(container => {
+            container.innerHTML = "";
+        });
+        
+        // Update analytics to show zero tasks
+        updateAnalytics();
     }
 }
 
