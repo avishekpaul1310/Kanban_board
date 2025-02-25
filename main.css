@@ -109,6 +109,36 @@ button:hover {
     border-radius: 4px;
 }
 
+/* Filter and Sort Styles */
+#filter-sort-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filter-group, .sort-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#task-filter {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 250px;
+}
+
+#task-sort {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
 /* Kanban Board Styles */
 .kanban-board {
     display: flex;
@@ -184,6 +214,57 @@ button:hover {
     margin-top: 5px;
 }
 
+/* Category Styles */
+.category-label {
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    color: white;
+    margin-left: 5px;
+    text-transform: capitalize;
+}
+
+.category-work {
+    background-color: #4285f4;
+}
+
+.category-work .category-label {
+    background-color: #4285f4;
+}
+
+.category-personal {
+    background-color: #ea4335;
+}
+
+.category-personal .category-label {
+    background-color: #ea4335;
+}
+
+.category-study {
+    background-color: #fbbc05;
+}
+
+.category-study .category-label {
+    background-color: #fbbc05;
+    color: #333;
+}
+
+.category-health {
+    background-color: #34a853;
+}
+
+.category-health .category-label {
+    background-color: #34a853;
+}
+
+.category-other {
+    background-color: #9e9e9e;
+}
+
+.category-other .category-label {
+    background-color: #9e9e9e;
+}
+
 /* Priority Colors */
 .priority-high {
     border-left: 4px solid #ff4444;
@@ -195,6 +276,92 @@ button:hover {
 
 .priority-low {
     border-left: 4px solid #00C851;
+}
+
+/* Timer Styles */
+.task-timer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #eee;
+}
+
+.timer-toggle {
+    background: #e6f0ff;
+    border: 1px solid #cce0ff;
+    color: #0066cc;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.timer-display {
+    font-family: monospace;
+    font-size: 14px;
+    background: #f5f5f5;
+    padding: 5px 10px;
+    border-radius: 4px;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Progress Tracking Styles */
+.task-progress {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #eee;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #0066cc;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.progress-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.progress-btn {
+    background: #e6f0ff;
+    border: 1px solid #cce0ff;
+    color: #0066cc;
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.progress-btn.minus {
+    background-color: #ffebee;
+    border-color: #ffcdd2;
+    color: #d32f2f;
+}
+
+.progress-btn.plus {
+    background-color: #e8f5e9;
+    border-color: #c8e6c9;
+    color: #388e3c;
+}
+
+.progress-value {
+    font-size: 12px;
+    font-weight: bold;
 }
 
 /* Analytics Styles */
@@ -211,6 +378,7 @@ button:hover {
     gap: 20px;
     flex-wrap: wrap;
     margin-top: 15px;
+    margin-bottom: 25px;
 }
 
 .stat-item {
@@ -223,6 +391,115 @@ button:hover {
 .stat-label {
     font-weight: bold;
     margin-right: 10px;
+}
+
+/* Chart Styles */
+.charts-section {
+    margin-top: 20px;
+}
+
+.charts-section h4 {
+    margin: 15px 0 10px;
+    font-size: 16px;
+}
+
+.chart-container {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    margin-top: 10px;
+    height: 200px;
+}
+
+.bar-chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 100%;
+    gap: 20px;
+    padding: 0 20px;
+}
+
+.bar-chart .bar {
+    width: 60px;
+    background-color: #0066cc;
+    position: relative;
+    min-height: 1px;
+    transition: height 0.5s ease;
+    border-radius: 4px 4px 0 0;
+    display: flex;
+    justify-content: center;
+}
+
+.bar-chart .bar::after {
+    content: attr(data-value);
+    position: absolute;
+    top: -25px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.bar-chart .bar-label {
+    position: absolute;
+    bottom: -25px;
+    text-align: center;
+    font-size: 12px;
+    width: 100%;
+}
+
+.pie-chart {
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pie-chart-container {
+    width: 150px;
+    height: 150px;
+    position: relative;
+}
+
+.pie-chart-segment {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.pie-chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-left: 20px;
+}
+
+.pie-chart-legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+.pie-chart-legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    margin-right: 5px;
+}
+
+/* Productivity Stats */
+.productivity-stats {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.productivity-stats h4 {
+    margin-bottom: 15px;
+    font-size: 16px;
 }
 
 /* Footer Styles */
@@ -241,8 +518,17 @@ footer {
         flex-direction: column;
     }
 
-    #task-form {
+    #task-form, #filter-sort-container {
         flex-direction: column;
+        gap: 10px;
+    }
+
+    .filter-group, .sort-group {
+        width: 100%;
+    }
+    
+    #task-filter {
+        width: 100%;
     }
 
     .stats-container {
@@ -252,6 +538,24 @@ footer {
     header {
         flex-direction: column;
         gap: 10px;
+    }
+    
+    .chart-container {
+        height: auto;
+    }
+    
+    .bar-chart {
+        height: 150px;
+    }
+    
+    .pie-chart {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .pie-chart-legend {
+        margin-left: 0;
+        margin-top: 10px;
     }
 }
 
@@ -264,4 +568,59 @@ footer {
 /* Overdue Task Style */
 .task.overdue {
     background-color: #ffebee;
+}
+
+/* Template Styles */
+template {
+    display: none;
+}
+
+/* Animation for charts and progress updates */
+@keyframes grow {
+    from { transform: scaleY(0.5); opacity: 0.5; }
+    to { transform: scaleY(1); opacity: 1; }
+}
+
+.bar-chart .bar {
+    animation: grow 0.5s ease-out;
+    transform-origin: bottom;
+}
+
+.progress-bar {
+    animation: progress-fade 0.3s ease-in-out;
+}
+
+@keyframes progress-fade {
+    from { opacity: 0.6; }
+    to { opacity: 1; }
+}
+
+/* Highlight effect for filtered tasks */
+.task.highlight {
+    animation: highlight 1s ease-out;
+}
+
+@keyframes highlight {
+    0% { background-color: #fff8e1; }
+    100% { background-color: white; }
+}
+
+/* Task with timer running */
+.task.timer-active {
+    border: 1px solid #b3e0ff;
+    box-shadow: 0 0 8px rgba(0, 102, 204, 0.3);
+    background-color: #f0f7ff;
+    transition: all 0.3s ease;
+}
+
+.task.timer-active .timer-display {
+    background-color: #e1f5fe;
+    color: #0066cc;
+    font-weight: bold;
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    from { background-color: #e1f5fe; }
+    to { background-color: #b3e0ff; }
 }
