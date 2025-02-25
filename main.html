@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Kanban Board</title>
+    <title>Enhanced Kanban Board</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
     <!-- Authentication Section -->
@@ -40,7 +41,32 @@
                 <option value="high">High Priority</option>
             </select>
             <input type="date" id="task-due-date">
+            <select id="task-category">
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+                <option value="study">Study</option>
+                <option value="health">Health</option>
+                <option value="other" selected>Other</option>
+            </select>
             <button id="add-task">Add Task</button>
+        </div>
+
+        <!-- Filter and Sort Container -->
+        <div id="filter-sort-container">
+            <div class="filter-group">
+                <input type="text" id="task-filter" placeholder="Filter tasks...">
+            </div>
+            <div class="sort-group">
+                <label for="task-sort">Sort by:</label>
+                <select id="task-sort">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="priority">Priority (High to Low)</option>
+                    <option value="alphabetical">Alphabetical (A-Z)</option>
+                    <option value="category">Category</option>
+                    <option value="progress">Progress</option>
+                </select>
+            </div>
         </div>
 
         <!-- Kanban Board -->
@@ -80,13 +106,83 @@
                     <span id="done-tasks">0</span>
                 </div>
             </div>
+
+            <!-- New: Visual Charts Section -->
+            <div class="charts-section">
+                <h4>Task Distribution</h4>
+                <div class="chart-container">
+                    <div id="task-distribution-chart" class="bar-chart"></div>
+                </div>
+
+                <h4>Tasks by Category</h4>
+                <div class="chart-container">
+                    <div id="category-distribution-chart" class="pie-chart"></div>
+                </div>
+            </div>
+            
+            <!-- New: Productivity Stats -->
+            <div class="productivity-stats">
+                <h4>Productivity Metrics</h4>
+                <div class="stat-item">
+                    <span class="stat-label">Completion Rate:</span>
+                    <span id="completion-rate">0%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Average Progress:</span>
+                    <span id="average-progress">0%</span>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Footer -->
     <footer>
-        <p>Last Updated: <span id="last-updated">2025-01-21 01:34:37</span></p>
+        <p>Last Updated: <span id="last-updated">2025-02-25 11:03:22</span></p>
         <p>Current User: <span id="footer-user">avishekpaul1310</span></p>
     </footer>
+    
+    <!-- Task Template (hidden, used for rendering) -->
+    <template id="task-template">
+        <div class="task" draggable="true">
+            <div class="task-content">
+                <div class="task-header">
+                    <input type="text" class="task-text" readonly>
+                    <span class="category-label"></span>
+                    <button class="delete-btn">×</button>
+                </div>
+                <div class="task-controls">
+                    <select class="task-priority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                    <select class="task-category">
+                        <option value="work">Work</option>
+                        <option value="personal">Personal</option>
+                        <option value="study">Study</option>
+                        <option value="health">Health</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <input type="date" class="task-due-date">
+                </div>
+                <div class="task-timer">
+                    <button class="timer-toggle">🕒 Start Timer</button>
+                    <span class="timer-display">25:00</span>
+                </div>
+                <div class="task-progress">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar"></div>
+                    </div>
+                    <div class="progress-controls">
+                        <button class="progress-btn minus">-10%</button>
+                        <span class="progress-value">0%</span>
+                        <button class="progress-btn plus">+10%</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <script src="main.js"></script>
 </body>
 </html>
