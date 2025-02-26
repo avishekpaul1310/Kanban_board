@@ -247,20 +247,55 @@ function checkDueDate(task) {
     }
 }
 
-// Timer functions
+// Timer functions with custom duration support
 function addTimerEventListeners(task) {
     const timerToggle = task.querySelector(".timer-toggle");
     const timerDisplay = task.querySelector(".timer-display");
+    
+    // Create time input field
+    const timeInput = document.createElement('input');
+    timeInput.type = 'number';
+    timeInput.min = '1';
+    timeInput.max = '180';
+    timeInput.value = '25'; // Default Pomodoro time
+    timeInput.className = 'timer-input';
+    timeInput.placeholder = 'Min';
+    timeInput.title = 'Set timer duration in minutes';
+    timeInput.style.width = '40px';
+    timeInput.style.marginRight = '5px';
+    
+    // Insert time input before timer toggle
+    timerToggle.parentNode.insertBefore(timeInput, timerToggle);
+    
     let timerActive = false;
     let timerInterval;
-    let timeLeft = 25 * 60; // 25 minutes in seconds for Pomodoro
+    let timeLeft = 25 * 60; // 25 minutes in seconds for default Pomodoro
     
     timerToggle.addEventListener("click", () => {
         if (timerActive) {
+            // Stop timer
             clearInterval(timerInterval);
             timerToggle.textContent = "🕒 Start Timer";
             task.classList.remove("timer-active");
+            timeInput.disabled = false;
         } else {
+            // Set time from input
+            const customMinutes = parseInt(timeInput.value);
+            if (customMinutes > 0) {
+                timeLeft = customMinutes * 60;
+                // Update display immediately
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            } else {
+                // If invalid input, reset to 25 minutes
+                timeInput.value = '25';
+                timeLeft = 25 * 60;
+            }
+            
+            // Disable input while timer is running
+            timeInput.disabled = true;
+            
             // Pause any other active timers
             document.querySelectorAll(".task.timer-active").forEach(activeTask => {
                 if (activeTask !== task) {
@@ -268,6 +303,7 @@ function addTimerEventListeners(task) {
                 }
             });
             
+            // Start timer
             timerInterval = setInterval(() => {
                 timeLeft--;
                 const minutes = Math.floor(timeLeft / 60);
@@ -279,9 +315,9 @@ function addTimerEventListeners(task) {
                     timerActive = false;
                     timerToggle.textContent = "🕒 Start Timer";
                     task.classList.remove("timer-active");
-                    alert("Pomodoro timer complete! Take a break.");
-                    timeLeft = 25 * 60;
-                    timerDisplay.textContent = "25:00";
+                    alert(`Timer complete (${timeInput.value} minutes)! Take a break.`);
+                    timerDisplay.textContent = `${timeInput.value.toString().padStart(2, '0')}:00`;
+                    timeInput.disabled = false;
                     
                     // If task is not in the "done" column, auto-move it to "in progress"
                     if (!task.closest("#in-progress") && !task.closest("#done")) {
