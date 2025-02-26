@@ -624,3 +624,18 @@ template {
     from { background-color: #e1f5fe; }
     to { background-color: #b3e0ff; }
 }
+
+/* Custom timer input styles */
+.timer-input {
+    width: 40px;
+    padding: 2px 4px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.timer-input:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
