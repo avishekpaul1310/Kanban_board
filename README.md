@@ -1,110 +1,171 @@
-# Kanban Board
+# Lessons Learned System
 
-![Kanban Board Preview](assets/images/kanban-preview.png)
+A comprehensive web application for capturing, managing, and sharing project lessons learned within an organization.
 
-## Overview
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python Version](https://img.shields.io/badge/python-3.8%2B-brightgreen)
+![Django Version](https://img.shields.io/badge/django-4.2.7-brightgreen)
 
-Kanban Board is a feature-rich task management web application built with vanilla JavaScript, CSS, and HTML. It implements the Kanban methodology for visualizing workflows and maximizing efficiency through a clean, intuitive interface.
+## 📋 Overview
 
-## Features
+The Lessons Learned System enables organizations to:
 
-- **Task Management**: Create, edit, and delete tasks with an intuitive drag-and-drop interface
-- **Task Categorization**: Organize tasks with custom categories and priority levels
-- **Progress Tracking**: Monitor task completion with visual progress indicators
-- **Task Timer**: Built-in Pomodoro timer for time management (25-minute focus sessions)
-- **Data Visualization**: Analytics dashboard with task distribution charts
-- **Filtering and Sorting**: Find tasks easily with powerful filtering and multiple sorting options
-- **Data Persistence**: Automatic saving of board state using localStorage
-- **Import/Export**: Share your kanban board via JSON export/import functionality
-- **User Authentication**: Simple user registration and login system
-- **Responsive Design**: Works on both desktop and mobile devices
+- Document valuable insights, experiences, and knowledge from projects
+- Categorize and search for lessons across multiple dimensions
+- Track implementation status of recommendations
+- Generate reports for future project planning
+- Foster a culture of continuous improvement
 
-## Live Demo
+## ✨ Features
 
-[View Live Demo](https://avishekpaul1310.github.io/Kanban_board/) <!-- Update this URL once deployed -->
+- **User Management**
+  - Customizable user profiles with role-based access control
+  - Team member assignment to projects
+  
+- **Project Management**
+  - Create and manage projects with timeline tracking
+  - Team composition and role assignment
+  - Project-level metrics and dashboards
 
-## Installation
+- **Lessons Learned Tracking**
+  - Multi-dimensional categorization (technical, process, communication)
+  - Impact assessment (high, medium, low)
+  - Implementation status workflow
+  - File attachments and commenting system
+  
+- **Knowledge Sharing**
+  - Advanced search and filtering capabilities
+  - User tagging and notifications
+  - Export functionality (CSV/PDF)
+  - "Star" important lessons for quick reference
 
-1. Clone the repository:
+- **Visual Analytics**
+  - Dashboard with key metrics
+  - Distribution charts by category, status, and impact
+  - Project-specific statistics
+
+## 🔧 Technology Stack
+
+- **Backend**: Django 4.2.7, Python 3.8+
+- **Frontend**: HTML, CSS, JavaScript, Bootstrap 5
+- **Database**: SQLite (development) / PostgreSQL (production)
+- **Libraries**:
+  - django-crispy-forms for enhanced forms
+  - django-filter for advanced filtering
+  - django-summernote for rich text editing
+  - Pillow for image processing
+
+## 📦 Installation
+
+1. Clone the repository
+   ```bash
+   git clone https://github.com/yourusername/lessons-learned-system.git
+   cd lessons-learned-system
    ```
-   git clone https://github.com/avishekpaul1310/Kanban_board.git
+
+2. Create and activate a virtual environment
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
-2. Navigate to the project directory:
-   ```
-   cd Kanban_board
-   ```
-
-3. Open `index.html` in your preferred browser:
-   ```
-   open index.html   # On macOS
-   start index.html  # On Windows
+3. Install dependencies
+   ```bash
+   pip install -r requirements.txt
    ```
 
-## Usage
+4. Set up environment variables
+   - Copy `.env.example` to `.env`
+   - Update variables as needed
 
-### User Registration and Login
-- Register with a username and password
-- Login to access your personal kanban board
+5. Run migrations
+   ```bash
+   python manage.py migrate
+   ```
 
-### Task Creation
-1. Enter task details in the input field at the top
-2. Select priority, category, and due date
-3. Click "Add Task" to create the task in the "To Do" column
+6. Create default media directories
+   ```bash
+   python create_default_jpg.py
+   ```
 
-### Task Management
-- Drag and drop tasks between columns ("To Do", "In Progress", "Done")
-- Double click on task text to edit
-- Use + and - buttons to update progress percentage
-- Click the timer button to start a 25-minute Pomodoro timer
+7. Create a superuser
+   ```bash
+   python manage.py createsuperuser
+   ```
 
-### Filtering and Sorting
-- Use the search box to filter tasks by name or category
-- Use the sort dropdown to arrange tasks by various criteria
+8. Start the development server
+   ```bash
+   python manage.py runserver
+   ```
 
-### Data Management
-- Board state is automatically saved to your browser's localStorage
-- Use Export/Import buttons to backup or transfer your board data
+9. Access the application at http://localhost:8000
 
-## Development
+## 🚀 Getting Started
 
-### Project Structure
+After installation, you can:
+
+1. Log in with your superuser account
+2. Create your first project
+3. Add team members to the project
+4. Start capturing lessons learned
+
+For demo data, run:
+```bash
+python create_test_data.py
 ```
-.
-├── index.html          # Main HTML structure
-├── css/
-│   └── styles.css      # Styling for the application
-├── js/
-│   └── main.js         # JavaScript functionality
-└── assets/
-    └── images/         # Images for documentation and UI
+
+## 🧪 Testing
+
+Run the test suite:
+```bash
+python run_tests.py
 ```
 
-### Future Enhancements
-- Team collaboration features
-- Multiple board support
-- Customizable columns
-- More advanced analytics
-- Backend integration for persistent storage
+Or run individual test modules:
+```bash
+python manage.py test accounts
+python manage.py test projects
+python manage.py test lessons
+python manage.py test integration_tests
+```
 
-## Contributing
+## 📚 Documentation
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Additional documentation can be found in the [docs](./docs) directory.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-For more details, see [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## License
+## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contact
+## 👥 Contributing
 
-Avishek Paul - [GitHub Profile](https://github.com/avishekpaul1310)
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
-Project Link: [https://github.com/avishekpaul1310/Kanban_board](https://github.com/avishekpaul1310/Kanban_board)
+## 📊 Project Structure
+
+```
+lessons-learned-system/
+├── accounts/               # User authentication and profiles
+├── lessons/                # Core lessons learned functionality
+├── projects/               # Project management
+├── static/                 # Static assets (CSS, JS)
+├── templates/              # HTML templates
+├── lessons_learned/        # Main project settings
+├── docs/                   # Documentation
+└── media/                  # User-uploaded files
+```
+
+## 📷 Screenshots
+
+Screenshots will be added soon.
+
+## 🌟 Roadmap
+
+- Mobile application support
+- Advanced analytics dashboard
+- API access for integration with other tools
+- Localization support
+
+## 📞 Contact
+
+For questions or feedback, please open an issue on GitHub.
